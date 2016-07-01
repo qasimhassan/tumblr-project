@@ -2,6 +2,7 @@ require 'rspec'
 require './application'
 require 'pry'
 require 'watir-webdriver'
+require 'yaml'
 
 RSpec.configure do |config|
   config.color = true
