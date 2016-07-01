@@ -12,6 +12,8 @@ describe Tumblr do
     it "should find the initial login button and click it" do
       login_btn = @browser.button id: "signup_login_button"
       login_btn.click
+
+      expect(@browser.url).to eq "https://www.tumblr.com/login"
     end
 
     it "should find the email and password textfield and enter values then click login" do
@@ -39,6 +41,8 @@ describe Tumblr do
       title_elm = @browser.div(:class, "editor-plaintext").when_present
       title_elm.click
       title_elm.send_keys(@file['postdetails']['title'])
+
+      expect(title_elm.text).to eq @file['postdetails']['title']
     end
 
     it "should find and enter a value in the body text field" do
@@ -46,6 +50,8 @@ describe Tumblr do
       body_elm = @browser.div(:class, "editor editor-richtext").when_present
       body_elm.click
       body_elm.send_keys(@file['postdetails']['text'])
+
+      expect(body_elm.text).to eq @file['postdetails']['text']
     end
 
     it "should find and click the post button" do
