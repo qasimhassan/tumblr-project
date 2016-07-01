@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Tumblr do
+describe "Tumblr watir" do
   before :all do
     @browser = Watir::Browser.new
     @browser.goto "http://tumblr.co.uk"
@@ -54,8 +54,11 @@ describe Tumblr do
 
     it "should find and click the post button" do
       post_btn = @browser.button(:class, "button-area create_post_button")
-      post_btn.click
-      puts "success!"
+      if post_btn.click != nil
+        puts "failure!"
+      else
+        puts "success!"
+      end
     end
 
     it "should check if the post has been created" do
