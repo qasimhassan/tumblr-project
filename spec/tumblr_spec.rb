@@ -37,7 +37,6 @@ describe Tumblr do
     end
 
     it "should find and enter a value in the title field" do
-      file = YAML.load(File.open('./login_data.yml'))
       title_elm = @browser.div(:class, "editor-plaintext").when_present
       title_elm.click
       title_elm.send_keys(@file['postdetails']['title'])
@@ -46,7 +45,6 @@ describe Tumblr do
     end
 
     it "should find and enter a value in the body text field" do
-      file = YAML.load(File.open('./login_data.yml'))
       body_elm = @browser.div(:class, "editor editor-richtext").when_present
       body_elm.click
       body_elm.send_keys(@file['postdetails']['text'])
