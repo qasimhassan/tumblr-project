@@ -4,6 +4,7 @@ describe Tumblr do
   before :all do
     @browser = Watir::Browser.new
     @browser.goto "http://tumblr.co.uk"
+    @file = YAML.load(File.open('./login_data.yml'))
   end
 
   context 'log in tumblr tests' do
@@ -14,13 +15,12 @@ describe Tumblr do
     end
 
     it "should find the email and password textfield and enter values then click login" do
-      file = YAML.load(File.open('./login_data.yml'))
 
-      email_elm = @browser.div(:id, "signup_determine").text_field.value = file['details']['email']
+      email_elm = @browser.div(:id, "signup_determine").text_field.value = @file['logindetails']['email']
       next_btn = @browser.button id: "signup_forms_submit"
       next_btn.click
       pass_elm = @browser.div(:id, "signup_account").text_field(:id, "signup_password")
-      pass_elm.when_present.set file['details']['password']
+      pass_elm.when_present.set @file['logindetails']['password']
       next_btn.click
 
       expect(@browser.url).to eq "https://www.tumblr.com/dashboard"
@@ -35,22 +35,23 @@ describe Tumblr do
     end
 
     it "should find and enter a value in the title field" do
+      file = YAML.load(File.open('./login_data.yml'))
       title_elm = @browser.div(:class, "editor-plaintext").when_present
       title_elm.click
-      title_elm.send_keys("test post")
+      title_elm.send_keys(@file['postdetails']['title'])
     end
 
     it "should find and enter a value in the body text field" do
+      file = YAML.load(File.open('./login_data.yml'))
       body_elm = @browser.div(:class, "editor editor-richtext").when_present
       body_elm.click
-      body_elm.send_keys("this is a test post")
+      body_elm.send_keys(@file['postdetails']['text'])
     end
 
     it "should find and click the post button" do
       post_btn = @browser.button(:class, "button-area create_post_button")
       post_btn.click
       puts "success!"
-
     end
 
     it "should check if the post has been created" do
@@ -58,12 +59,12 @@ describe Tumblr do
       # acc.when_present.click
       # post = @browser.div(:class, "popover_menu_item_blog_details").a(:class, "blog-sub-nav-item-link")
       # post.when_present.click
-      matches = @browser.text =~ /test post/
+      matches = @browser.text =~ /Qasim Hassan Test Post/
       puts "The number of posts with the test post title is #{matches}"
     end
   end
 
   after :all do
-    #@browser.close
+    @browser.close
   end
 end
