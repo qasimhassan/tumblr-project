@@ -24,8 +24,10 @@ describe "Tumblr watir" do
       pass_elm = @browser.div(:id, "signup_account").text_field(:id, "signup_password")
       pass_elm.when_present.set @file['logindetails']['password']
       next_btn.click
+      text_btn = @browser.nav(:id, "post_buttons").a(:id, "new_post_label_text")
 
       expect(@browser.url).to eq "https://www.tumblr.com/dashboard"
+      expect(text_btn.present?).to eq true
     end
   end
 
