@@ -64,17 +64,15 @@ describe "Tumblr watir" do
     end
 
     it "should check if the post has been created" do
-      #acc = @browser.div(:id, "account_button").button(:class, "tab_anchor")
-      #binding.pry
-      #acc.when_present.click
-      #post = @browser.div(:class, "popover_menu_item_blog_details").a(:class, "blog-sub-nav-item-link")
-      #post.when_present.click
-
-      profile = @browser.div(class: "post_avatar tumblelog-avatar").a
-      binding.pry
-      #lists = @browser.lis class: "post_container"
-
-      #expect(lists.last.text).to include @file['postdetails']['title']
+      #set an implicit wait here
+      @browser.driver.manage.timeouts.implicit_wait = 6 #6 seconds
+      acc = @browser.div(id: "account_button").when_present
+      acc.click
+      post = @browser.li(class: "blog-sub-nav-item").when_present
+      post.click
+      @browser.driver.manage.timeouts.implicit_wait = 6 #6 seconds
+      lists = @browser.lis(class: "post_container")
+      expect(lists[1].text).to include @file['postdetails']['title']
     end
   end
 
